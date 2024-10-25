@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 import { TextFieldProps } from './TextFieldProps';
 
-import './textFieldStyles.css';
+import './textFieldStyles.scss';
 
 import clsx from 'classnames';
 
