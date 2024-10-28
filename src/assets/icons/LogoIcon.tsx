@@ -12,13 +12,13 @@ export const LogoIcon: FC<IconProps> = props => {
     const {
         className,
         color = '#ffffff',
-        height = 28,
-        width = 28,
+        height = 24,
+        width = 24,
         onClick
     } = props;
 
     return (
-        <svg width={width} height={height} viewBox="0 0 24 24" fill={color} className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg">
+        <svg width={width} height={height} viewBox="0 0 24 24" enableBackground="new 0 0 24 24" fill={color} className={className} onClick={onClick} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
             <path d="M8 6C8 7.10457 7.10457 8 6 8C4.89543 8 4 7.10457 4 6C4 4.89543 4.89543 4 6 4C7.10457 4 8 4.89543 8 6Z" fill={color}/>
             <path d="M8 12C8 13.1046 7.10457 14 6 14C4.89543 14 4 13.1046 4 12C4 10.8954 4.89543 10 6 10C7.10457 10 8 10.8954 8 12Z" fill={color}/>
             <path d="M6 20C7.10457 20 8 19.1046 8 18C8 16.8954 7.10457 16 6 16C4.89543 16 4 16.8954 4 18C4 19.1046 4.89543 20 6 20Z" fill={color}/>

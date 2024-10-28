@@ -8,6 +8,8 @@ import { DepartmentsPage } from './pages';
 
 import { RoutesPaths } from './constants/commonConstants';
 
+import './styles/globalStyles.scss';
+
 export const App: React.FC = () => {
   return (
     <Routes>
