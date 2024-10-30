@@ -9,6 +9,7 @@
     align-items: center;
 
     &__paper {
+        padding: 20px;
         min-width: 300px;
         min-height: 150px;
         background: $color-white;
@@ -28,7 +29,7 @@
     }
 
     &__body {
-        padding: 10px 0;
+        padding: 15px 0;
         display: flex;
         flex-direction: column;
         gap: 8px;
