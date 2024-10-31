@@ -29,15 +29,6 @@ export const UserMenu: FC<UserMenuProps> = props => {
                     <div className='user-menu__underlay' onClick={showMenuHandler} />
                 </>
             )}
-            <div className='user-menu__menu'>
-                { items.map((item) =>
-                    (
-                        <span className='user-menu__menu-item' key={item.id}>
-                            {item.label}
-                        </span>
-                    )
-                )}
-            </div>
         </div>
     );
 }

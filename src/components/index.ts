@@ -3,4 +3,7 @@ export { DropDown } from './dropDown';
 export { TextField } from './textField'; 
 export { UserMenu } from './userMenu';
 export { EmployeesList } from './employeesList';
+export { FilesList } from './filesList';
+export { EducationList } from './educationList';
+export { WorkExperienceList } from './workExperienceList';
 export { Dialog } from './dialog';
