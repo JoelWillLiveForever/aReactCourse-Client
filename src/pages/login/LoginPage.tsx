@@ -9,11 +9,15 @@ import './loginPageStyles.scss';
 import { useNavigate } from 'react-router-dom';
 import { RoutesPaths } from '../../constants/commonConstants';
 
+import { Auth } from '../../api';
+
 export const LoginPage: FC = () => {
     const [login, setLogin] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
     const navigate = useNavigate();
+
+    const { signIn } = Auth;
 
     const loginChangedHandler = (value: string) => {
         setLogin(value);
@@ -24,12 +28,20 @@ export const LoginPage: FC = () => {
     }
 
     const loginHandler = () => {
-        console.log({
-            login,
-            password
-        });
+        // console.log({
+        //     login,
+        //     password
+        // });
         
-        navigate(RoutesPaths.Departments);
+        // navigate(RoutesPaths.Departments);
+
+        signIn({login, password})
+           .then((resp) => {
+            console.log(resp);
+           })
+           .catch((error) => {
+            console.log(error);
+           });
     }
 
     const toRegistrationHandler = () => {
