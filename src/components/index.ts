@@ -7,3 +7,4 @@ export { FilesList } from './filesList';
 export { EducationList } from './educationList';
 export { WorkExperienceList } from './workExperienceList';
 export { Dialog } from './dialog';
+export { UsersList } from './usersList';
