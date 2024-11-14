@@ -30,7 +30,7 @@ export const RegistrationPage: FC = () => {
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState<string>();
-    const { signUp } = Auth;
+    const { signUp, signIn } = Auth;
 
     const changeFieldValue = (value: string | undefined, fieldName: FormFieldsNames) => {
         setFormFields(prev => {
@@ -53,14 +53,30 @@ export const RegistrationPage: FC = () => {
             return;
         }
 
-        signUp({
-            login: formFields.login,
-            password: formFields.password,
-        }).then(() => {
-            navigate(RoutesPaths.Departments);
-        }).catch((error) => {
-            setErrorMessage((error as AxiosError)?.message);
+        const data = {login: formFields.login, password: formFields.password};
+
+        signUp(data).then(() => {
+            signIn(data).then(respData => {
+                if (respData.role === 'user') {
+                    navigate(`/${RoutesPaths.NoPermissions}`);
+                } else {
+                    navigate(`/${RoutesPaths.Departments}`);
+                }
+            }).catch(err =>
+                setErrorMessage((err as AxiosError)?.message)
+            );
+        }).catch((err) => {
+            setErrorMessage((err as AxiosError)?.message);
         });
+
+        // signUp({
+        //     login: formFields.login,
+        //     password: formFields.password,
+        // }).then(() => {
+        //     navigate(RoutesPaths.Departments);
+        // }).catch((error) => {
+        //     setErrorMessage((error as AxiosError)?.message);
+        // });
 
         // clear form fields
         // navigate(RoutesPaths.Login); // navigate to login page after successful registration and clear form fields

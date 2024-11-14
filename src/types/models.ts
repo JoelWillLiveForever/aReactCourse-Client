@@ -19,7 +19,7 @@ export interface Employee {
     phoneNumber: string;
     birthDate: string;
     educations: Array<Education>;
-    workExpirience: Array<WorkExperience>;
+    workExperience: Array<WorkExperience>;
 }
 
 export interface Department {

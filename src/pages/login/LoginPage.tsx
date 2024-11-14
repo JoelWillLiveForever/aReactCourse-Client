@@ -28,20 +28,17 @@ export const LoginPage: FC = () => {
     }
 
     const loginHandler = () => {
-        // console.log({
-        //     login,
-        //     password
-        // });
-        
-        // navigate(RoutesPaths.Departments);
-
         signIn({login, password})
-           .then((resp) => {
-            console.log(resp);
-           })
-           .catch((error) => {
-            console.log(error);
-           });
+            .then(respData => {
+                if (respData.role === 'user') {
+                    navigate(`/${RoutesPaths.NoPermissions}`);
+                } else {
+                    navigate(`/${RoutesPaths.Departments}`);
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
     }
 
     const toRegistrationHandler = () => {
