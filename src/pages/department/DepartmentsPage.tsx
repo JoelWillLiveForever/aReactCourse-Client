@@ -10,6 +10,9 @@ import { DropDownItem } from '../../components/dropDown/DropDownProps';
 import { PencilIcon, PlusIcon, TrashIcon, UploadIcon } from '../../assets/icons';
 import { format } from 'date-fns';
 import { Departments } from '../../api';
+import { useAppSelector } from '../../hooks/reduxToolkitHooks';
+import { RoutesPaths } from '../../constants/commonConstants';
+import { useNavigate } from 'react-router-dom';
 
 // const fakeEmployeesData = [
 //     { id: 1, lastName: 'Иванов', firstName: 'Иван', midleName: 'Иванович', birthDate: new Date().toISOString(), email: 'ivanov@gmail.com', phoneNumber: '8-800-535-35-35'},
@@ -67,6 +70,8 @@ import { Departments } from '../../api';
 // ] as Array<Department>;
 
 export const DepartmentsPage: FC = () => {
+    const { role, accessToken } = useAppSelector((state) => state.user);
+
     const { getDepartments, deleteDepartment } = Departments;
 
     const [departmentData, setDepartmentData] = useState<Array<Department>>([]);
@@ -86,6 +91,19 @@ export const DepartmentsPage: FC = () => {
     const [birthDate, setBirthDate] = useState('');
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (accessToken)
+        {
+            if (role === 'user' || !role) {
+                navigate(`/${RoutesPaths.NoPermissions}`);
+            }
+        } else {
+            navigate(`/${RoutesPaths.Login}`);
+        }
+    }, [accessToken, role, navigate]);
 
     useEffect(() => {
         getDepartments()
@@ -242,9 +260,13 @@ export const DepartmentsPage: FC = () => {
                             label='Отделы:'
                             selectedChanged={(val) => departmentChangedHandler(val)}
                         />
-                        <PlusIcon width={16} height={16} className='dep-page__add-btn' />
-                        <PencilIcon />
-                        <TrashIcon onClick={deleteDepartmentHandler} />
+                        {role === 'admin' && (
+                            <>
+                                <PlusIcon width={16} height={16} className='dep-page__add-btn' />
+                                <PencilIcon />
+                                <TrashIcon onClick={deleteDepartmentHandler} />
+                            </>
+                        )}
                     </div>
 
                     <EmployeesList employeesList={employeesData}

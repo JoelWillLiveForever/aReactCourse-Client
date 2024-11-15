@@ -1,2 +1,2 @@
-export { Auth } from './auth';
+export { AuthApi } from './auth';
 export { Departments } from './departments';
