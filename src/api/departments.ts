@@ -4,24 +4,28 @@ import { AccessTokenKey } from '../constants/commonConstants';
 import { AddDepartmentResponseDto, EditDepartmentResponseDto } from '../types/apiTypes';
 import { Department } from '../types/models';
 
-const { axiosDelete, axiosGet, axiosPut, axiosPost } = AxiosInstance(sessionStorage.getItem(AccessTokenKey) ?? '');
+export const DepartmentsApi = () => {
+    const token = sessionStorage.getItem(AccessTokenKey) ?? '';
 
-const getDepartments = async() =>
-    await axiosGet('/Departments') as Array<Department>;
+    const { axiosDelete, axiosGet, axiosPut, axiosPost } = AxiosInstance(token);
 
-const addDepartment = async(addDepartmentData: AddDepartmentResponseDto) =>
-    await axiosPost('/Departments/department', addDepartmentData) as number;
+    const getDepartments = async() =>
+        await axiosGet('/Departments') as Array<Department>;
 
-const editDepartment = async(editDepartmentData: EditDepartmentResponseDto) =>
-    await axiosPut('/Departments/department', editDepartmentData) as void;
+    const addDepartment = async(addDepartmentData: AddDepartmentResponseDto) =>
+        await axiosPost('/Departments/department', addDepartmentData) as number;
 
-const deleteDepartment = async(id: string | number) =>
-    await axiosDelete(`/Departments/department?id=${id}`) as void;
+    const editDepartment = async(editDepartmentData: EditDepartmentResponseDto) =>
+        await axiosPut('/Departments/department', editDepartmentData) as void;
 
-export const Departments = {
-    addDepartment,
-    deleteDepartment,
-    editDepartment,
-    getDepartments
+    const deleteDepartment = async(id: string | number) =>
+        await axiosDelete(`/Departments/department?id=${id}`) as void;
+
+    return {
+        addDepartment,
+        deleteDepartment,
+        editDepartment,
+        getDepartments
+    }
 }
 

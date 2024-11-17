@@ -1,2 +1,5 @@
 export { AuthApi } from './auth';
-export { Departments } from './departments';
+export { DepartmentsApi } from './departments';
+export { AdministrationApi } from './administration';
+export { FilesApi } from './files';
+export { EmployeeApi } from './employee';

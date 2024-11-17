@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { LoginRequestDto, LoginResponseDto, RegistrationRequestDto } from "../types/apiTypes";
 import { AsyncThunkOptions } from "../types/toolkitTypes";
-import { AuthApi } from "../api';
+import { AuthApi } from "../api";
 
 const NAMESPACE = 'user';
 
@@ -9,7 +9,7 @@ export const signIn = createAsyncThunk<LoginResponseDto, LoginRequestDto, AsyncT
     `${NAMESPACE}/signIn`,
     async(loginData, { rejectWithValue }) => {
         try {
-            return await AuthApi.login(loginData);
+            return await AuthApi().signIn(loginData);
         } catch (error) {
             return rejectWithValue((error as Error).message);
         }
@@ -20,8 +20,8 @@ export const signUp = createAsyncThunk<LoginResponseDto, RegistrationRequestDto,
     `${NAMESPACE}/signUp`,
     async(registrationData, { rejectWithValue }) => {
         try {
-            await AuthApi.signUp(registrationData);
-            return await AuthApi.signIn({
+            await AuthApi().signUp(registrationData);
+            return await AuthApi().signIn({
                 login: registrationData.login,
                 password: registrationData.password
             });

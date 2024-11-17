@@ -6,14 +6,14 @@ import { DropDownProps } from './DropDownProps';
 import './dropDownStyles.scss';
 
 export const DropDown: FC<DropDownProps> = props => {
-    const { items, label, lblWeight, selectedChanged } = props;
+    const { items, label, lblWeight, selectedChanged, className } = props;
 
     const selectedChangedHandler = (event: ChangeEvent<HTMLSelectElement>) => {
         selectedChanged && selectedChanged(event.target.value);
     }
 
     return (
-        <div className="drop-down">
+        <div className={clsx('drop-down', className)}>
             {!!label && (<label className="drop-down__lbl">{label}</label>)}
             <label className={clsx('drop-down__lbl', {
                 'drop-down__lbl_strong': lblWeight === 'strong'

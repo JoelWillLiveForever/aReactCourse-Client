@@ -8,9 +8,8 @@ import './registrationPageStyles.scss';
 
 import { useNavigate } from 'react-router-dom';
 import { RoutesPaths } from '../../constants/commonConstants';
-import { Auth } from '../../api';
-import { error } from 'console';
-import { Axios, AxiosError } from 'axios';
+import { AuthApi } from '../../api';
+import { AxiosError } from 'axios';
 
 type FormFieldsNames = 'login' | 'password' | 'repeatePassword' | 'lastName' | 'firstName' | 'midName';
 
@@ -30,7 +29,7 @@ export const RegistrationPage: FC = () => {
     const navigate = useNavigate();
 
     const [errorMessage, setErrorMessage] = useState<string>();
-    const { signUp, signIn } = Auth;
+    const { signUp, signIn } = AuthApi();
 
     const changeFieldValue = (value: string | undefined, fieldName: FormFieldsNames) => {
         setFormFields(prev => {
