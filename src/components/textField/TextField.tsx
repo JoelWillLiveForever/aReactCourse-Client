@@ -8,7 +8,7 @@ import clsx from 'classnames';
 export const TextField: FC<TextFieldProps> = props => {
     const {
         info,
-        infoType = 'error',
+        infoType = 'info',
         labelText,
         lblWeight,
         onChange,

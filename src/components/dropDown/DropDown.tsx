@@ -14,16 +14,19 @@ export const DropDown: FC<DropDownProps> = props => {
 
     return (
         <div className={clsx('drop-down', className)}>
-            {!!label && (<label className="drop-down__lbl">{label}</label>)}
-            <label className={clsx('drop-down__lbl', {
-                'drop-down__lbl_strong': lblWeight === 'strong'
-            })}></label>
+            {!!label && (
+                <label className={clsx('drop-down__lbl', {
+                    'drop-down__lbl_strong': lblWeight==='strong'
+                })}>
+                    {label}
+                </label>
+            )}
             <select className="drop-down__select" onChange={selectedChangedHandler}>
                 {items.map((item, idx) => {
                     return (
                         <option key={idx} value={item.value}>{item.text}</option>
                     );
-                })}
+                })}   
             </select>
         </div>
     );

@@ -21,12 +21,12 @@ export const AdministrationPage: FC = () => {
         if (accessToken)
         {
             if (role === 'user' || role === 'manager' || !role) {
-                navigate(`/${RoutesPaths.NoPermissions}`);
+                navigate(`${RoutesPaths.NoPermissions}`);
             } else {
                 dispatch(getUsers());
             }
         } else {
-            navigate(`/${RoutesPaths.Login}`);
+            navigate(`${RoutesPaths.Login}`);
         }
     }, [accessToken, role, navigate, dispatch]);
 

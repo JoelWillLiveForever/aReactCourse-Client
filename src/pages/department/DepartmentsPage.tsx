@@ -13,7 +13,7 @@ import { format } from 'date-fns';
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxToolkitHooks';
 import { RoutesPaths } from '../../constants/commonConstants';
 import { useNavigate } from 'react-router-dom';
-import { addDepartment, addEducation, addEmployee, addWorkExperience, deleteEducation, deleteEmployee, deleteWorkExperience, editDepartment, editEmployee, getDepartments, uploadFile } from '../../services';
+import { addDepartment, addEducation, addEmployee, addWorkExperience, deleteEducation, deleteEmployee, deleteFile, deleteWorkExperience, editDepartment, editEmployee, getDepartments, uploadFile } from '../../services';
 import { FilesApi } from '../../api';
 
 export const DepartmentsPage: FC = () => {
@@ -61,12 +61,12 @@ export const DepartmentsPage: FC = () => {
         if (accessToken)
         {
             if (role === 'user' || !role) {
-                navigate(`/${RoutesPaths.NoPermissions}`);
+                navigate(`${RoutesPaths.NoPermissions}`);
             } else {
                 dispatch(getDepartments());
             }
         } else {
-            navigate(`/${RoutesPaths.Login}`);
+            navigate(`${RoutesPaths.Login}`);
         }
     }, [accessToken, role, navigate, dispatch]);
 
@@ -84,14 +84,25 @@ export const DepartmentsPage: FC = () => {
     // }, [getDepartments]);
 
     useEffect(() => {
-        const selectedDepartment = selectedDepartmentId
+        const selectedDepartment = selectedDepartmentId 
             ? departments.find(d => d.id === selectedDepartmentId)
             : departments[0];
 
         setSelectedDepartmentId(selectedDepartment?.id);
         setEmployeesData(selectedDepartment ? selectedDepartment.employees : []);
-        setSelectedEmployee(undefined);
-    }, [departments, selectedDepartmentId]);
+
+        if(selectedEmployee && selectedDepartment) {
+            const findedSelectedEmployee 
+                = selectedDepartment.employees
+                    .find(e => e.id === selectedEmployee.id);
+            setSelectedEmployee(findedSelectedEmployee);
+        } else if (selectedDepartment?.employees.length) {
+            setSelectedEmployee(selectedDepartment.employees[0]);
+        } else {
+            setSelectedEmployee(undefined);
+        }
+
+    }, [departments, selectedDepartmentId, selectedEmployee]);
 
     // useEffect(() => {
     //     setEmployeesData(fakeEmployeesData);
@@ -163,6 +174,7 @@ export const DepartmentsPage: FC = () => {
 
     const saveEmployeeDialogHandler = () => {
         if (!selectedDepartmentId) {
+            closeEmployeeDialogHandler();
             return;
         }
 
@@ -232,7 +244,7 @@ export const DepartmentsPage: FC = () => {
             fileToBase64(file, (base64String: string) => {
                 dispatch(uploadFile({
                     employeeId: selectedEmployee!.id,
-                    fileName: file.filename,
+                    fileName: file.name,
                     fileString: base64String
                 }));
             });
@@ -252,8 +264,21 @@ export const DepartmentsPage: FC = () => {
         });
     }
 
-    const deleteFileHandler = () => {
+    const deleteFileHandler = (id: number) => {
+        if(window.confirm('Вы действительно хотите удалить данный файл?')) {
+            dispatch(deleteFile(id));
+        }
+    }
 
+    const createDepartmentHandler = () => {
+        setDepartmentActionMode('create');
+        setShowDepartmentDialog(true);
+    }
+
+    const editDepartmentHandler = () => {
+        setDepartmentActionMode('edit');
+        setDepartmentName(departments.find(d=>d.id === selectedDepartmentId)?.name ?? '');
+        setShowDepartmentDialog(true);
     }
 
     const closeDepartmentDialogHandler = () => {
@@ -381,8 +406,8 @@ export const DepartmentsPage: FC = () => {
                         />
                         {role === 'admin' && (
                             <>
-                                <PlusIcon width={16} height={16} className='dep-page__add-btn' />
-                                <PencilIcon />
+                                <PlusIcon width={16} height={16} className='dep-page__add-btn' onClick={createDepartmentHandler} />
+                                <PencilIcon onClick={editDepartmentHandler} />
                                 <TrashIcon onClick={deleteDepartmentHandler} />
                             </>
                         )}
